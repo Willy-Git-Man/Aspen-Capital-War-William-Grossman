@@ -46,7 +46,6 @@ console.log(sessionUser, 'adfasdf')
             <StartGameUserList />
           </Route>
           <Route path="/StartGame/:id">
-            hello
             {/* <StartGameUserList /> */}
         <GamePage user={sessionUser}/>
           </Route>
