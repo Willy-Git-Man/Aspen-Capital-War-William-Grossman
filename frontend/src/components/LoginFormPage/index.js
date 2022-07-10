@@ -55,7 +55,6 @@ function LoginFormPage() {
       </label>
       <button type="submit">Log In</button>
       <button onClick={() => demoUser()}>Guest Login</button>
-      {/* <button type="submit" onClick={() => }>Demo</button> */}
 
     </form>
   );

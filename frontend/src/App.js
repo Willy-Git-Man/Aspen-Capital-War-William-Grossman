@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { NavLink, Redirect, Route, Switch } from "react-router-dom";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
@@ -8,6 +8,7 @@ import Navigation from "./components/Navigation";
 import StartGame from "./components/StartGame";
 import StartGameUserList from "./components/StartGameUserList";
 import GamePage from "./components/GamePage";
+import LeaderBoard from "./components/LeaderBoard";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,11 +40,16 @@ console.log(sessionUser, 'adfasdf')
           {sessionUser && (
             <Switch>
           <Route exact path="/">
+            <NavLink to="/LeaderBoard">LeaderBoard</NavLink>
             <StartGame />
           </Route>
           <Route exact path="/StartGame">
             {/* Hello Start */}
             <StartGameUserList />
+          </Route>
+          <Route path="/LeaderBoard">
+
+            <LeaderBoard />
           </Route>
           <Route path="/StartGame/:id">
             {/* <StartGameUserList /> */}
