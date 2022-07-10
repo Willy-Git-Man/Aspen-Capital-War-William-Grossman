@@ -32,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: [60, 60]
       }
+    },
+    wins: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
     }
   },
   {
@@ -91,6 +95,6 @@ module.exports = (sequelize, DataTypes) => {
     });
     return await User.scope('currentUser').findByPk(user.id);
   };
-  
+
   return User;
 };
