@@ -17,14 +17,10 @@ function StartGameUserList() {
       const userResponse = await fetch("http://localhost:5000/api/users/");
       const userResponseData = await userResponse.json();
       setUsers(userResponseData);
-      console.log(users)
     }
     fetchData();
   }, [dispatch]);
 
-  console.log(users)
-
-console.log(sessionUser)
 
 
 

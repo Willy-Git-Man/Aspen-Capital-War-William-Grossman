@@ -5,38 +5,36 @@ import { NavLink, Redirect, useParams } from 'react-router-dom';
 function GamePage() {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
+  const { id } = useParams()
   const [users, setUsers] = useState([]);
+  const [opponent, setOppoinent] = useState([])
+  const [isLoading, setLoading] = useState(true);
+  useEffect(() => {
+    async function fetchData() {
+      const userResponse = await fetch("http://localhost:5000/api/users/");
+      const userResponseData = await userResponse.json();
+      setUsers(userResponseData);
 
-
-  const {id} = useParams()
-
-  // console.log( sessionUser.id)
-console.log('id',id)
-
-useEffect(() => {
-  async function fetchData() {
-    const userResponse = await fetch("http://localhost:5000/api/users/");
-    const userResponseData = await userResponse.json();
-    setUsers(userResponseData);
-    console.log(users)
-  }
-  fetchData();
-}, [dispatch]);
-
-console.log(users)
-
-const opponent = users.filter((user) => user.id === Number(id))
-console.log(opponent)
-
-console.log(sessionUser)
+      setOppoinent(userResponseData.filter((user) => user.id === Number(id)))
+      console.log('hello', opponent)
+      console.log(users)
+    }
+    fetchData();
+    setLoading(false)
+  }, [dispatch]);
 
   return (
     <div className="userList">
-     <p>{sessionUser.username}</p>
-     <p>{opponent[0].username}</p>
+      {opponent.length > 0 && (
+        <>
+          <p>{sessionUser.username}</p>
+          <p>{opponent[0].username}</p>
+        </>
+
+      )}
 
     </div>
-  );
+  )
 }
 
 
