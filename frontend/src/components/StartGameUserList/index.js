@@ -9,7 +9,7 @@ function StartGameUserList() {
   const sessionUser = useSelector(state => state.session.user);
   console.log('test',sessionUser)
 
-  const [users, setUsers] = useState([]);
+  let [users, setUsers] = useState([]);
 
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function StartGameUserList() {
   }, [dispatch]);
 
 
-
+  users = users.filter((user) => user.id !== sessionUser.id)
 
   return (
     <div className="userList">

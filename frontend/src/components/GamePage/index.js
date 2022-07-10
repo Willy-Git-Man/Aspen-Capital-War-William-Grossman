@@ -27,8 +27,9 @@ function GamePage() {
     <div className="userList">
       {opponent.length > 0 && (
         <>
-          <p>{sessionUser.username}</p>
-          <p>{opponent[0].username}</p>
+
+          <p>Home Team: {sessionUser.username}</p>
+          <p>Opponent: {opponent[0].username}</p>
         </>
 
       )}
