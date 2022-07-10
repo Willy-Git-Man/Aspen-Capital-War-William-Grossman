@@ -7,7 +7,7 @@ import './UserList.css'
 function StartGameUserList() {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
-  console.log(sessionUser)
+  console.log('test',sessionUser)
 
   const [users, setUsers] = useState([]);
 
@@ -24,7 +24,7 @@ function StartGameUserList() {
 
   console.log(users)
 
-
+console.log(sessionUser)
 
 
 
