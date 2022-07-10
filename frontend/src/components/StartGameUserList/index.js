@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Redirect } from 'react-router-dom';
+import './UserList.css'
 
 function StartGameUserList() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function StartGameUserList() {
 
   return (
     <div className="userList">
+      <h1>Choose a Player</h1>
       {users.map((user) => (
           <NavLink to={`/StartGame/${user.id}`}>{user.username}</NavLink>
 
