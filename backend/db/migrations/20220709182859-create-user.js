@@ -32,6 +32,20 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now')
       }
+      ,
+      wins: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+
+        defaultValue: 0
+      }
+      ,
+      losses: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+,
+        defaultValue: 0
+      }
     });
   },
   down: (queryInterface, Sequelize) => {
