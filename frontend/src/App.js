@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
@@ -19,9 +19,13 @@ function App() {
 
 console.log(sessionUser, 'adfasdf')
 
+
+
+
   return (
     <>
       <Navigation isLoaded={isLoaded} />
+
       {isLoaded && (
         <Switch>
           <Route path="/login">
@@ -30,7 +34,10 @@ console.log(sessionUser, 'adfasdf')
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-
+          </Switch>
+          )}
+          {sessionUser && (
+            <Switch>
           <Route exact path="/">
             <StartGame />
           </Route>
@@ -44,7 +51,7 @@ console.log(sessionUser, 'adfasdf')
         <GamePage user={sessionUser}/>
           </Route>
         </Switch>
-      )}
+          )}
     </>
   );
 }
