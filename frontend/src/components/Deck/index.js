@@ -6,11 +6,12 @@ function Deck() {
   const sessionUser = useSelector(state => state.session.user);
 
 
-  const [homeTeamCount,setHomeTeamCount] = useState(0)
-  const [opponentTeamCount,setopponentTeamCount] = useState(0)
+  const [homeTeamCount, setHomeTeamCount] = useState(0)
+  const [opponentTeamCount, setopponentTeamCount] = useState(0)
   const [homeDeckState, setHomeDeckStae] = useState([])
   const [opponentState, setopponentStae] = useState([])
-  console.log("state",homeDeckState,opponentState)
+  const [winner, setWinner] = useState("Playing")
+  const [currentCards, setCurrentCards] = useState()
 
   var homeDeck = []
   var opponentDeck = []
@@ -20,30 +21,16 @@ function Deck() {
   var newHomeDeck = []
   var newOpponentDeck = []
 
+  const newGame = () => {
+    setHomeDeckStae([])
+    setopponentStae([])
+    setHomeTeamCount(0)
+    setopponentTeamCount(0)
+    setCurrentCards()
+  }
+
   const shuffle = () => {
 
-    // for (let i = 0; i < cardSuit.length; i++) {
-    //   for (let j = 0; j < cards.length; j++) {
-    //     if (count === 52) return homeDeck && opponentDeck
-    //     count += 1
-    //     if (homeDeck.length === 26 && opponentDeck.length === 26) {
-    //       return homeDeck && opponentDeck
-    //     }
-    //     const assignCard = Math.random()
-    //     if (assignCard < .5) {
-    //       if (homeDeck.length < 26) {
-    //         homeDeck.push([cards[j], " of ", cardSuit[i]])
-    //       } else opponentDeck.push([cards[j], " of ", cardSuit[i]])
-
-    //     }
-    //     if (assignCard >= .5) {
-    //       if (opponentDeck.length < 26) {
-    //         opponentDeck.push([cards[j], " of ", cardSuit[i]])
-    //       } else homeDeck.push([cards[j], " of ", cardSuit[i]])
-    //     }
-
-    //   }
-    // }
     for (let i = 0; i < cardSuit.length; i++) {
       for (let j = 0; j < cards.length; j++) {
         if (count === 52) return homeDeck && opponentDeck
@@ -66,67 +53,85 @@ function Deck() {
 
       }
     }
-    console.log(homeDeck,opponentDeck)
   }
-
   const playButton = () => {
     setHomeTeamCount(26)
     setopponentTeamCount(26)
     shuffle()
-    // console.log(homeDeck,opponentDeck)
-
-
   }
-  // for (let i = 0; i < 100; i++) {
-  //   if (homeDeck.length === 52) console.log("Home Team Wins")
-  //   if (opponentDeck.length === 52) console.log("Opponent Wins")
 
-  //   if (homeDeck[0] > opponentDeck[0]) {
-  //    const winner = [homeDeck[0][0],opponentDeck[0][0]]
-  //    homeDeck.splice(0,1)
-  //    homeDeck.concat(winner)
-  //   }
-  //   console.log(homeDeck)
-
-
-  // }
 
 
   const startGame = () => {
-console.log("start game",homeDeck,opponentDeck)
-      // while(homeTeamCount <= 52 || opponentTeamCount <=52) {
+    const homeCard = homeDeckState.shift()
 
-        // const homeCard = homeDeck.shift()
-        // const opponentCard = opponentDeck.shift()
-        if (homeDeckState[0][0] > opponentState[0][0]) {
+    const opponentCard = opponentState.shift()
 
-          setHomeTeamCount(homeTeamCount + 2)
-          setopponentTeamCount(opponentTeamCount - 2)
-        } else {
+    setCurrentCards([homeCard, opponentCard])
 
-          setHomeTeamCount(homeTeamCount - 2)
-          setopponentTeamCount(opponentTeamCount + 2)
-        }
+//const handleWin
+//concat of string to caqrd type
+    if (homeTeamCount === 52) {
+      setWinner("HomeTeam Wins!")
+    }
 
+    if (opponentTeamCount === 52) setWinner("opponent Wins!")
 
+    if (homeCard[0] > opponentCard[0]) {
+      homeDeckState.push(homeCard)
+      homeDeckState.push(opponentCard)
+//
+    } else {
+      opponentState.push(homeDeckState[0])
+      opponentState.push(opponentState[0])
 
-
-      // }
-
+    }
   }
 
+  const simulateEntireGame = () => {
+    while(homeDeckState.length <= 52 || opponentState.length <= 52) {
+      const homeCard = homeDeckState.shift()
 
+      const opponentCard = opponentState.shift()
 
+      setCurrentCards([homeCard, opponentCard])
 
+  //const handleWin
+  //concat of string to caqrd type
+      if (homeTeamCount === 52) {
+        setWinner("HomeTeam Wins!")
+      }
+
+      if (opponentTeamCount === 52) setWinner("opponent Wins!")
+
+      if (homeCard[0] > opponentCard[0]) {
+        homeDeckState.push(homeCard)
+        homeDeckState.push(opponentCard)
+  //
+      } else {
+        opponentState.push(homeDeckState[0])
+        opponentState.push(opponentState[0])
+
+      }
+    }
+  }
 
   return (
     <>
-      {/* HomePlayer: {homeDeck}
-      Oppenent: {opponentDeck} */}
-      <button onClick={() => playButton()}>New Game</button>
-      <button onClick={() => startGame()}>Start</button>
-      <p>Home Team</p>{homeTeamCount}
-      <p>Opponent</p>{opponentTeamCount}
+
+
+      <button onClick={() => newGame()}>Reset</button>
+      <button onClick={() => playButton()}>Shuffle</button>
+      <button onClick={() => startGame()}>Next Hand</button>
+      <button onClick={() => simulateEntireGame()}>Next simulation</button>
+
+
+      <p>Home Team</p>{homeDeckState.length}
+      <p>Opponent</p>{opponentState.length}
+
+      <h1>{currentCards}</h1>
+
+      <h1>{winner}</h1>
 
     </>
   )
@@ -134,3 +139,28 @@ console.log("start game",homeDeck,opponentDeck)
 
 
 export default Deck;
+
+/*
+    for (let i = 0; i < cardSuit.length; i++) {
+      for (let j = 0; j < cards.length; j++) {
+        if (count === 52) return homeDeck && opponentDeck
+        count += 1
+        if (homeDeck.length === 26 && opponentDeck.length === 26) {
+          return homeDeck && opponentDeck
+        }
+        const assignCard = Math.random()
+        if (assignCard < .5) {
+          if (homeDeck.length < 26) {
+            homeDeck.push([cards[j], " of ", cardSuit[i]])
+          } else opponentDeck.push([cards[j], " of ", cardSuit[i]])
+
+        }
+        if (assignCard >= .5) {
+          if (opponentDeck.length < 26) {
+            opponentDeck.push([cards[j], " of ", cardSuit[i]])
+          } else homeDeck.push([cards[j], " of ", cardSuit[i]])
+        }
+
+      }
+    }
+    */
