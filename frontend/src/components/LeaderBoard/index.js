@@ -24,7 +24,7 @@ function LeaderBoard() {
     <div className="userList">
       <h1>leaders</h1>
       {users.map((user) => (
-          <p>{user.username} : {user.wins}</p>
+          <p key={user.id}>{user.username} : {user.wins}</p>
 
       ))}
     </div>

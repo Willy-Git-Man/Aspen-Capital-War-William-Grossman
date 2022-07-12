@@ -7,7 +7,6 @@ import './UserList.css'
 function StartGameUserList() {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
-  console.log('test',sessionUser)
 
   let [users, setUsers] = useState([]);
 
@@ -28,7 +27,7 @@ function StartGameUserList() {
     <div className="userList">
       <h1>Choose a Player</h1>
       {users.map((user) => (
-          <NavLink to={`/StartGame/${user.id}`}>{user.username}</NavLink>
+          <NavLink key={user.id} to={`/StartGame/${user.id}`}>{user.username}</NavLink>
 
       ))}
     </div>

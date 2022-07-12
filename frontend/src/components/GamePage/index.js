@@ -16,8 +16,6 @@ function GamePage() {
       setUsers(userResponseData);
 
       setOppoinent(userResponseData.filter((user) => user.id === Number(id)))
-      console.log('hello', opponent)
-      console.log(users)
     }
     fetchData();
     setLoading(false)
