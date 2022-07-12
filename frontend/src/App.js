@@ -10,6 +10,7 @@ import StartGameUserList from "./components/StartGameUserList";
 import GamePage from "./components/GamePage";
 import LeaderBoard from "./components/LeaderBoard";
 import Deck from "./components/Deck";
+import GameLogic from "./components/GameLogic";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,7 +55,8 @@ function App() {
           <Route path="/StartGame/:id">
             {/* <StartGameUserList /> */}
         <GamePage user={sessionUser}/>
-        <Deck />
+        {/* <Deck /> */}
+        <GameLogic />
           </Route>
         </Switch>
           )}

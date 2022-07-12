@@ -1,0 +1,21 @@
+.playingGameDiv {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.homeSide {
+  display: flex;
+  flex-direction: column;
+}
+
+.opponentSide {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

@@ -56,6 +56,21 @@ function Deck() {
       }
     }
 
+    const temp1 = []
+    const temp2 = []
+    for (let i = 0; i < deck1.length; i++) {
+      if (i % 2 === 0) {
+        temp1.push(deck1[i])
+        temp2.push(deck2[i])
+      } else {
+        temp1.unshift(deck1[i])
+        temp2.unshift(deck2[i])
+      }
+    }
+    // deck1=temp1
+    // deck2 = temp2
+    setHomeDeckState(temp1)
+    setOpponentDeckState(temp2)
   }
 
 
@@ -68,15 +83,87 @@ function Deck() {
 
       //const handleWin
       //concat of string to caqrd type
+// console.log(homeDeckState[0][0])
+
+const logic = () => {
+  if (homeDeckState.length >= 1) {
+    if (homeDeckState[0][0] > opponentState[0][0]) {
+      const bothCards = homeDeckState.splice(0,1).concat(opponentState.splice(0,1))
+      setNewHomeDeck(newHomeDeck.concat(bothCards))
+
+    }
+  } else {
+    setHomeDeckState(newHomeDeck)
+    setNewHomeDeck([])
+  }
+
+  if (opponentState.length >= 1) {
+    if (opponentState[0][0] > homeDeckState[0][0]) {
+      const bothCards = homeDeckState.splice(0,1).concat(opponentState.splice(0,1))
+      setNewHomeDeck(newHomeDeck.concat(bothCards))
+
+    }
+  } else {
+    setOpponentDeckState(newOpponentDeck.concat(newOpponentDeck))
+    setNewOpponentDeck([])
+  }
+}
+  const gameLogic = () => {
+    if (homeDeckState.length === 3) {
+      setHomeDeckState(homeDeckState.concat(newHomeDeck))
+      setNewHomeDeck([])
+      return
+    }
+    if (opponentState.length === 3) {
+      setOpponentDeckState(opponentState.concat(newOpponentDeck))
+      setNewOpponentDeck([])
+      return
+    }
+
+    if (homeDeckState[0][0] > opponentState[0][0]) {
+      const bothCards = homeDeckState.splice(0,1).concat(opponentState.splice(0,1))
+      setNewHomeDeck(newHomeDeck.concat(bothCards))
+
+    } else if (homeDeckState[0][0] < opponentState[0][0]) {
+      const bothCards = homeDeckState.splice(0,1).concat(opponentState.splice(0,1))
+      setNewOpponentDeck(newOpponentDeck.concat(bothCards))
+    }
+    else if (homeDeckState[0][0] === opponentState[0][0] && homeDeckState.length >=3 && opponentDeck.length >= 3) {
+      const homeCard = homeDeckState[2][0]
+      const opponentCard = opponentState[2][0]
+
+    const sixCards = (homeDeckState.splice(0,3).concat(opponentState.splice(0,3)))
+    console.log(sixCards,homeCard,opponentCard)
+    if (homeCard > opponentCard) {
+      setNewHomeDeck(newHomeDeck.concat(sixCards))
+    } else if (homeCard < opponentCard) {
+      setNewOpponentDeck(newOpponentDeck.concat(sixCards))
+    } else if (homeCard === opponentCard) {
+      setNewHomeDeck(newHomeDeck.concat(sixCards.splice(2,3)))
+      setNewOpponentDeck(newOpponentDeck.concat(sixCards))
+      setWinner("Stand-Off cards split")
+    }
+      } else if (homeDeckState[0][0] === opponentState[0][0] && homeDeckState.length < 3 && opponentDeck.length < 3) {
+        if (homeDeckState.length >= opponentState.length) {
+          setHomeDeckState(homeDeckState.concat(opponentState))
+          setOpponentDeckState([])
+          setWinner('Home Team Wins')
+        } else if (homeDeckState.length < opponentState.length) {
+          setOpponentDeckState(opponentState.concat(homeDeckState))
+          setHomeDeckState([])
+          setWinner("Opponent Wins")
+        }
+      }
+  }
 
   const startGame = () => {
     if (homeDeckState.length === 1) {
-      setHomeDeckState(newHomeDeck.reverse())
+      setHomeDeckState(homeDeckState.concat(newHomeDeck.reverse()) )
       setNewHomeDeck([])
 
     }
     if (opponentState.length === 1) {
-      setOpponentDeckState(newOpponentDeck.reverse())
+      setOpponentDeckState(opponentState.concat(newOpponentDeck.reverse()) )
       setNewOpponentDeck([])
     }
 
@@ -104,10 +191,26 @@ function Deck() {
 
 
     }
-     else if (topHomeCard[0] === topOpponentCard[0]) {
-      console.log(homeDeckState, opponentState)
-      newHomeDeck.push(topHomeCard,topOpponentCard)
+    //  else if (topHomeCard[0] === topOpponentCard[0]) {
+    //   console.log(homeDeckState, opponentState)
+    //   newHomeDeck.push(topHomeCard,topOpponentCard)
+    // }
+    else if (homeDeckState[0][0] === opponentState[0][0]) {
+      const homeCard = homeDeckState[2][0]
+      const opponentCard = opponentState[2][0]
+
+    const sixCards = (homeDeckState.splice(0,3).concat(opponentState.splice(0,3)))
+    console.log(sixCards,homeCard,opponentCard)
+    if (homeCard > opponentCard) {
+      setNewHomeDeck(newHomeDeck.concat(sixCards))
+    } else if (homeCard < opponentCard) {
+      setNewOpponentDeck(newOpponentDeck.concat(sixCards))
+    } else if (homeCard === opponentCard) {
+      setNewHomeDeck(newHomeDeck.concat(sixCards.splice(2,3)))
+      setNewOpponentDeck(newOpponentDeck.concat(sixCards))
+      setWinner("Stand-Off cards split")
     }
+      }
 
 
   }
@@ -165,8 +268,10 @@ function Deck() {
 
           <button onClick={() => newGame()}>Reset</button>
           <button onClick={() => startGame()}>Next Hand</button>
+          <button onClick={() => gameLogic()}>game logic</button>
+
           {/* <button onClick={() => simulateEntireGame()}>Next simulation</button> */}
-          <button onClick={() => simulation()}>Next simulation</button>
+          {/* <button onClick={() => simulation()}>Next simulation</button> */}
 
         </>
       )}
