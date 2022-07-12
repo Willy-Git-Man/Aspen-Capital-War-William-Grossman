@@ -23,8 +23,8 @@ function GameLogic() {
     setOpponentDeckState([])
     setCurrentHomeCard()
     setCurrentOpponentCard()
-    // setOtherHomeDeck([])
-    // setOtherOpponentDeck([])
+    setHomeWinningPile([])
+    setOpponentWinningPile([])
   }
 
   const initialShuffle = () => {
@@ -66,27 +66,63 @@ function GameLogic() {
 
   }
 
-  const shuffle = (deck) => {
+  const shuffleHome = (deck) => {
+
+    console.log(opponentDeckState)
+
     for (let i = 0; i < deck.length; i++) {
-      
+      if (i % 2 === 0) {
+        let temp = deck[i]
+        deck[i] = deck[i + 1]
+        deck[i + 1] = temp
+      }
+
     }
+    setHomeWinningPile(deck)
+  }
+
+  const shuffleOpponent = () => {
+    const deck = []
+
+    for (let i = 0; i < opponentDeckState.length; i++) {
+      if (i % 2 === 0) {
+        deck.push(opponentDeckState[i])
+      } else deck.unshift(opponentDeckState[i])
+    }
+    setOpponentWinningPile(deck)
   }
 
   const nextHand = () => {
+    if (opponentDeckState.length === 0 && opponentWinningPile.length === 0) console.log('winning')
+    if (homeDeckState.length === 0) {
+      setHomeDeckState(homeWinngPile)
+      setHomeWinningPile([])
+      return
+    }
+
+    if (opponentDeckState.length === 0) {
+      setOpponentDeckState(opponentWinningPile.reverse())
+      setOpponentWinningPile([])
+      return
+    }
+
     const homeCard = homeDeckState[0]
     const opponentCard = opponentDeckState[0]
 
     setCurrentHomeCard(homeCard)
     setCurrentOpponentCard(opponentCard)
 
-    setHomeDeckState(homeDeckState.splice(1,homeDeckState.length -1))
-    setOpponentDeckState(opponentDeckState.splice(1,opponentDeckState.length -1))
+    setHomeDeckState(homeDeckState.splice(1, homeDeckState.length - 1))
+    setOpponentDeckState(opponentDeckState.splice(1, opponentDeckState.length - 1))
 
 
     if (homeCard[0] > opponentCard[0]) {
-      setHomeWinningPile(homeWinngPile.concat([homeCard,opponentCard]))
+      setHomeWinningPile(homeWinngPile.concat([homeCard, opponentCard]))
     } else if (opponentCard[0] > homeCard[0]) {
-      setOpponentWinningPile(opponentWinningPile.concat([homeCard,opponentCard]))
+      setOpponentWinningPile(opponentWinningPile.concat([homeCard, opponentCard]))
+    } else if (homeCard[0] === opponentCard[0]) {
+      setHomeWinningPile(homeWinngPile.concat([homeCard, opponentCard]))
+
     }
 
   }
@@ -98,8 +134,8 @@ function GameLogic() {
 
         {playing && (
           <>
-        <button onClick={() => newGame()}>Reset</button>
-        <button onClick={() => nextHand()}>Next Hand</button>
+            <button onClick={() => newGame()}>Reset</button>
+            <button onClick={() => nextHand()}>Next Hand</button>
           </>
 
 
