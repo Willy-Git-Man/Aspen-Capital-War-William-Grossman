@@ -57,7 +57,7 @@ function GameLogic() {
 
   }
 
-  const nextHand =  () => {
+  const nextHand = () => {
     setMessage("Playing")
 
     const homeCard = homeDeckState.pop()
@@ -65,22 +65,38 @@ function GameLogic() {
     setCurrentHomeCard(homeCard)
     setCurrentOpponentCard(opponentCard)
 
-
-
-    if (homeCard[0] > opponentCard[0]) homeDeckState.push(homeCard,opponentCard)
-    else if (homeCard[0] < opponentCard[0]) opponentDeckState.push(homeCard,opponentCard)
+    if (homeCard[0] > opponentCard[0]) homeDeckState.push(homeCard, opponentCard)
+    else if (homeCard[0] < opponentCard[0]) opponentDeckState.push(homeCard, opponentCard)
     else {
       const homeDown = homeDeckState.pop()
       const homeUp = homeDeckState.pop()
       const opponentDown = opponentDeckState.pop()
       const opponentUp = opponentDeckState.pop()
 
-      if (homeUp[0] >= opponentUp[0]) homeDeckState.push(homeCard,opponentCard, homeDown,homeUp,opponentDown,opponentUp)
-      else if (homeUp[0] < opponentUp[0]) homeDeckState.push(homeCard,opponentCard, homeDown,homeUp,opponentDown,opponentUp)
-    }
+      if (homeUp[0] >= opponentUp[0]) homeDeckState.push(homeCard, opponentCard, homeDown, homeUp, opponentDown, opponentUp)
+      else if (homeUp[0] < opponentUp[0]) homeDeckState.push(homeCard, opponentCard, homeDown, homeUp, opponentDown, opponentUp)
+      else if (homeUp[0] === opponentUp[0]) {
+        const nextHome = homeDeckState.pop()
+        const nextOpponent = opponentDeckState.pop()
 
-
+        if (nextHome[0] > nextOpponent[0]) homeDeckState.push(homeCard, opponentCard, homeDown, homeUp, opponentDown, opponentUp, nextHome, nextOpponent)
+        else opponentDeckState.push(homeCard, opponentCard, homeDown, homeUp, opponentDown, opponentUp, nextHome, nextOpponent)
+      }
     }
+  }
+
+  const simulatEntireGame = () => {
+    const random = Math.random()
+        if (random < .5) {
+          setHomeDeckState(new Array(52))
+          setOpponentDeckState(new Array(0))
+        } else {
+
+          setOpponentDeckState(new Array(52))
+          setHomeDeckState(new Array(0))
+
+        }
+  }
 
   return (
     <>
@@ -91,6 +107,8 @@ function GameLogic() {
           <>
             <button onClick={() => newGame()}>Reset</button>
             <button onClick={() => nextHand()}>Next Hand</button>
+            <button onClick={() => simulatEntireGame()}>Simulate Game</button>
+
           </>
 
         )}
@@ -111,9 +129,9 @@ function GameLogic() {
         </div>
 
       </div>
-          <div>
-            {message}
-          </div>
+      <div>
+        {message}
+      </div>
     </>
   )
 }
