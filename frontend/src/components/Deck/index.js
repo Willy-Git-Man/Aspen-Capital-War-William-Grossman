@@ -2,116 +2,153 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 function Deck() {
-  const dispatch = useDispatch();
-  const sessionUser = useSelector(state => state.session.user);
+
+  const [homeDeckState, setHomeDeckState] = useState([])
+  const [opponentState, setOpponentDeckState] = useState([])
 
 
-  const [homeTeamCount, setHomeTeamCount] = useState(0)
-  const [opponentTeamCount, setopponentTeamCount] = useState(0)
-  const [homeDeckState, setHomeDeckStae] = useState([])
-  const [opponentState, setopponentStae] = useState([])
-  const [winner, setWinner] = useState("Playing")
+  const [winner, setWinner] = useState("Ready")
   const [currentCards, setCurrentCards] = useState()
+  const [newHomeDeck, setNewHomeDeck] = useState([])
+  const [newOpponentDeck, setNewOpponentDeck] = useState([])
+  const [playing, setPlaying] = useState(false)
+
 
   var homeDeck = []
   var opponentDeck = []
   var cardSuit = ["Spades", "Clubs", "Hearts", "Diamonds"]
   var cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
   var count = 0
-  var newHomeDeck = []
-  var newOpponentDeck = []
 
   const newGame = () => {
-    setHomeDeckStae([])
-    setopponentStae([])
-    setHomeTeamCount(0)
-    setopponentTeamCount(0)
+    setHomeDeckState([])
+    setOpponentDeckState([])
+    setNewHomeDeck([])
+    setNewOpponentDeck([])
     setCurrentCards()
+    setPlaying(false)
   }
 
-  const shuffle = () => {
+  const shuffle = (deck1,deck2) => {
+    if (!deck1) deck1=homeDeckState
+    if (!deck2) deck2=opponentState
 
     for (let i = 0; i < cardSuit.length; i++) {
       for (let j = 0; j < cards.length; j++) {
         if (count === 52) return homeDeck && opponentDeck
         count += 1
-        if (homeDeckState.length === 26 && opponentState.length === 26) {
-          return homeDeckState && opponentState
+        if (deck1.length === 26 && deck2.length === 26) {
+          return deck1 && deck2
         }
         const assignCard = Math.random()
         if (assignCard < .5) {
-          if (homeDeckState.length < 26) {
-            homeDeckState.push([cards[j], " of ", cardSuit[i]])
-          } else opponentState.push([cards[j], " of ", cardSuit[i]])
+          if (deck1.length < 26) {
+            deck1.push([cards[j], " of ", cardSuit[i]])
+          } else deck2.push([cards[j], " of ", cardSuit[i]])
 
         }
         if (assignCard >= .5) {
-          if (opponentState.length < 26) {
-            opponentState.push([cards[j], " of ", cardSuit[i]])
-          } else homeDeckState.push([cards[j], " of ", cardSuit[i]])
+          if (deck2.length < 26) {
+            deck2.push([cards[j], " of ", cardSuit[i]])
+          } else deck1.push([cards[j], " of ", cardSuit[i]])
         }
 
       }
     }
+
   }
+
+
   const playButton = () => {
-    setHomeTeamCount(26)
-    setopponentTeamCount(26)
+    setWinner("Shuffled")
+    setPlaying(true)
     shuffle()
   }
 
 
+      //const handleWin
+      //concat of string to caqrd type
 
   const startGame = () => {
-    const homeCard = homeDeckState.shift()
+    if (homeDeckState.length === 1) {
+      setHomeDeckState(newHomeDeck.reverse())
+      setNewHomeDeck([])
 
-    const opponentCard = opponentState.shift()
-
-    setCurrentCards([homeCard, opponentCard])
-
-//const handleWin
-//concat of string to caqrd type
-    if (homeTeamCount === 52) {
-      setWinner("HomeTeam Wins!")
+    }
+    if (opponentState.length === 1) {
+      setOpponentDeckState(newOpponentDeck.reverse())
+      setNewOpponentDeck([])
     }
 
-    if (opponentTeamCount === 52) setWinner("opponent Wins!")
+    // const topHomeCard = homeDeckState[0]
+    // const topOpponentCard = opponentState[0]
 
-    if (homeCard[0] > opponentCard[0]) {
-      homeDeckState.push(homeCard)
-      homeDeckState.push(opponentCard)
-//
-    } else {
-      opponentState.push(homeDeckState[0])
-      opponentState.push(opponentState[0])
+    const topHomeCard = homeDeckState.shift()
+    const topOpponentCard = opponentState.shift()
 
+    // const homeCard = homeDeckState.shift()
+
+    // const opponentCard = opponentState.shift()
+
+    setCurrentCards([topHomeCard, "  vs  ", topOpponentCard])
+
+    if (topHomeCard[0] > topOpponentCard[0]) {
+      newHomeDeck.push(topHomeCard,topOpponentCard)
+
+      // setNewHomeDeck(newHomeDeck.concat(homeDeck))
+
+    } else if (topHomeCard[0] < topOpponentCard[0]) {
+      newOpponentDeck.push(topHomeCard,topOpponentCard)
+      // setNewOpponentDeck(newOpponentDeck.concat(opponentDeck))
+
+
+
+    }
+     else if (topHomeCard[0] === topOpponentCard[0]) {
+      console.log(homeDeckState, opponentState)
+      newHomeDeck.push(topHomeCard,topOpponentCard)
+    }
+
+
+  }
+
+  const simulation = () => {
+    let idz = 0
+    while (idz < 3000) {
+      startGame()
+      idz++
     }
   }
 
   const simulateEntireGame = () => {
-    while(homeDeckState.length <= 52 || opponentState.length <= 52) {
+    while (homeDeckState.length > 0 || opponentState.length > 0) {
+      console.log(homeDeckState)
+      if (homeDeckState.length === 0) setWinner("Opponent Wins!")
+      if (opponentState.length === 0) setWinner("HomeTeam Wins!")
+
+      const tempHomeCard = homeDeckState[0]
+      const tempOpponentCard = opponentState[0]
+
       const homeCard = homeDeckState.shift()
 
       const opponentCard = opponentState.shift()
 
-      setCurrentCards([homeCard, opponentCard])
+      setCurrentCards([tempHomeCard, tempOpponentCard])
 
-  //const handleWin
-  //concat of string to caqrd type
-      if (homeTeamCount === 52) {
-        setWinner("HomeTeam Wins!")
-      }
-
-      if (opponentTeamCount === 52) setWinner("opponent Wins!")
+      //const handleWin
+      //concat of string to caqrd type
 
       if (homeCard[0] > opponentCard[0]) {
-        homeDeckState.push(homeCard)
-        homeDeckState.push(opponentCard)
-  //
-      } else {
-        opponentState.push(homeDeckState[0])
-        opponentState.push(opponentState[0])
+        homeDeckState.push(tempHomeCard)
+        homeDeckState.push(tempOpponentCard)
 
+        //
+      } else if (homeCard[0] < opponentCard[0]) {
+        opponentState.push(tempHomeCard)
+        opponentState.push(tempOpponentCard)
+
+      } else {
+        return
       }
     }
   }
@@ -119,15 +156,31 @@ function Deck() {
   return (
     <>
 
+      {!playing && (
 
-      <button onClick={() => newGame()}>Reset</button>
-      <button onClick={() => playButton()}>Shuffle</button>
-      <button onClick={() => startGame()}>Next Hand</button>
-      <button onClick={() => simulateEntireGame()}>Next simulation</button>
+        <button onClick={() => playButton()}>Shuffle</button>
+      )}
+      {playing && (
+        <>
+
+          <button onClick={() => newGame()}>Reset</button>
+          <button onClick={() => startGame()}>Next Hand</button>
+          {/* <button onClick={() => simulateEntireGame()}>Next simulation</button> */}
+          <button onClick={() => simulation()}>Next simulation</button>
+
+        </>
+      )}
 
 
+        <>
       <p>Home Team</p>{homeDeckState.length}
+      <p>Winning Pile</p>{newHomeDeck.length}
+        </>
+        <>
       <p>Opponent</p>{opponentState.length}
+      <p>Winning Pile</p>{newOpponentDeck.length}
+        </>
+
 
       <h1>{currentCards}</h1>
 
@@ -139,28 +192,3 @@ function Deck() {
 
 
 export default Deck;
-
-/*
-    for (let i = 0; i < cardSuit.length; i++) {
-      for (let j = 0; j < cards.length; j++) {
-        if (count === 52) return homeDeck && opponentDeck
-        count += 1
-        if (homeDeck.length === 26 && opponentDeck.length === 26) {
-          return homeDeck && opponentDeck
-        }
-        const assignCard = Math.random()
-        if (assignCard < .5) {
-          if (homeDeck.length < 26) {
-            homeDeck.push([cards[j], " of ", cardSuit[i]])
-          } else opponentDeck.push([cards[j], " of ", cardSuit[i]])
-
-        }
-        if (assignCard >= .5) {
-          if (opponentDeck.length < 26) {
-            opponentDeck.push([cards[j], " of ", cardSuit[i]])
-          } else homeDeck.push([cards[j], " of ", cardSuit[i]])
-        }
-
-      }
-    }
-    */
