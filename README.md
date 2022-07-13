@@ -1,10 +1,10 @@
 #Aspen-Capital-War-William-Grossman
 Play-War is an application where users can sign up then play other existing players and compete to get to the top of the leader board. 
 
-##Live Site
+* Live Site
 Link to the live version of [Play-War](https://play-war.herokuapp.com/), hosted by Heroku.
 
-##Tech
+* Tech
 Play War is built on the following technologies
 
 Backend - Express on Node.js
@@ -15,20 +15,23 @@ Database - PostgresSQL, Sequelize
 
 Styling - HTML, CSS
 
-##Features
+* Features
 The current version of the site has the following fully implemented features
 
-###Full user authentication
+* Full user authentication
 Users can securely sign up and log back into accounts, passwords are hashed securely using BCrypt and are stored as such in the database
-###Full access to other users for the purpose of playing and competing
+
+* Full access to other users for the purpose of playing and competing
 Users can play any other player who has signed up
-###Leaderboard stored in a database
+
+* Leaderboard stored in a database
 All games are recorded and stored in a database so players can compete for the title of #1 War player in the universe (as it pertains to my application)
-### Hosted on Heroku
+
+* Hosted on Heroku
 The application is live so that users can connect and play online
 
 
-##Installation
+* Installation
 To install and start playing War, follow the instructions below:
 Git clone: https://github.com/Willy-Git-Man/Aspen-Capital-War-William-Grossman.git
 * Backend Dependencies:
