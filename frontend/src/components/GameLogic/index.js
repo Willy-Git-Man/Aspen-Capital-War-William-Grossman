@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { NavLink, Redirect, useHistory, useParams } from 'react-router-dom';
 import { getAllUsersThunk, updateWinsThunk } from '../../store/users';
 import './index.css'
 function GameLogic() {
@@ -106,6 +106,9 @@ function GameLogic() {
       }
 
       dispatch(updateWinsThunk(winPayload))
+      // return (
+      //   <Redirect to="/LeaderBoard" />
+      // )
       history.push('/LeaderBoard')
     }
     if (homeDeckState.length === 1) {
@@ -116,6 +119,9 @@ function GameLogic() {
       }
 
       dispatch(updateWinsThunk(winPayload))
+      // return (
+      //   <Redirect to="/LeaderBoard" />
+      // )
       history.push('/LeaderBoard')
     }
     count += 1
@@ -155,7 +161,11 @@ function GameLogic() {
       }
 
       dispatch(updateWinsThunk(winPayload))
+      // return (
+      //   <Redirect to="/LeaderBoard" />
+      // )
       history.push('/LeaderBoard')
+      window.location.reload(false);
     } else {
 
       setOpponentDeckState(new Array(52))
@@ -167,7 +177,11 @@ function GameLogic() {
       }
 
       dispatch(updateWinsThunk(winPayload))
+      // return (
+      //   <Redirect to="/LeaderBoard" />
+      // )
       history.push('/LeaderBoard')
+      window.location.reload(false);
 
     }
     setSim(true)
@@ -212,6 +226,9 @@ function GameLogic() {
       </div>
       <div className="homeSide">
         {message}
+
+
+
       </div>
     </>
   )
