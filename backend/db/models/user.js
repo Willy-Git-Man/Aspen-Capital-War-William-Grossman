@@ -35,7 +35,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     wins: {
       type: DataTypes.BIGINT,
-      allowNull: false,
     }
   },
   {

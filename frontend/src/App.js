@@ -11,6 +11,9 @@ import GamePage from "./components/GamePage";
 import LeaderBoard from "./components/LeaderBoard";
 import Deck from "./components/Deck";
 import GameLogic from "./components/GameLogic";
+import ProfileButton from "./components/Navigation/ProfileButton";
+
+
 
 function App() {
   const dispatch = useDispatch();
@@ -28,38 +31,43 @@ function App() {
     <>
       <Navigation isLoaded={isLoaded} />
 
-      {isLoaded && (
+      {isLoaded && !sessionUser &&(
         <Switch>
-          <Route path="/login">
+          <Route path="/">
+            <div className="nonSessionMenu">
             <LoginFormPage />
-          </Route>
-          <Route path="/signup">
             <SignupFormPage />
+
+            </div>
           </Route>
-          </Switch>
-          )}
-          {sessionUser && (
-            <Switch>
+
+
+        </Switch>
+      )}
+      {sessionUser && (
+        <Switch>
           <Route exact path="/">
             <NavLink to="/LeaderBoard">LeaderBoard</NavLink>
             <StartGame />
           </Route>
+
           <Route exact path="/StartGame">
-            {/* Hello Start */}
+            <NavLink exact to="/">Home</NavLink>
             <StartGameUserList />
           </Route>
-          <Route path="/LeaderBoard">
 
+          <Route path="/LeaderBoard">
+            <NavLink exact to="/">Home</NavLink>
             <LeaderBoard />
           </Route>
+
           <Route path="/StartGame/:id">
-            {/* <StartGameUserList /> */}
-        <GamePage user={sessionUser}/>
-        {/* <Deck /> */}
-        <GameLogic />
+            <NavLink exact to="/">Home</NavLink>
+            <GamePage user={sessionUser} />
+            <GameLogic />
           </Route>
         </Switch>
-          )}
+      )}
     </>
   );
 }

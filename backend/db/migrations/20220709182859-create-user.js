@@ -34,14 +34,12 @@ module.exports = {
       }
       ,
       wins: {
-        allowNull: false,
         type: Sequelize.INTEGER,
 
         defaultValue: 0
       }
       ,
       losses: {
-        allowNull: false,
         type: Sequelize.INTEGER
 ,
         defaultValue: 0

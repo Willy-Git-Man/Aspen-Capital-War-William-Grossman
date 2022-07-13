@@ -1,13 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { updateWinsThunk } from '../../store/users';
 import './index.css'
 function GameLogic() {
+  const dispatch = useDispatch()
   const [playing, setPlaying] = useState(false)
   const [homeDeckState, setHomeDeckState] = useState([])
   const [opponentDeckState, setOpponentDeckState] = useState([])
   const [currentHomeCard, setCurrentHomeCard] = useState()
   const [currentOpponentCard, setCurrentOpponentCard] = useState()
   const [message, setMessage] = useState("Ready")
+
+  const sessionUser = useSelector((state) => state.session.user)
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const userResponse = await fetch("http://localhost:5000/api/users/");
+  //     const userResponseData = await userResponse.json();
+  //   }
+  //   fetchData();
+  // }, [dispatch]);
+
+
+// const handleWinUpdate = (e) => {
+//   e.preventDefault();
+//   const winPayload = {
+//     id:sessionUser.id,
+//     username: sessionUser.userName,
+//     wins: sessionUser.id + 1
+//   }
+
+//     return dispatch(updateWinsThunk(winPayload))
+// };
+
+  const handleWin = () => {
+
+    const winPayload = {
+
+      wins: sessionUser.id + 1
+    }
+
+    dispatch(updateWinsThunk(winPayload))
+  }
+
 
   const newGame = () => {
     setPlaying(false)
@@ -16,6 +50,8 @@ function GameLogic() {
     setCurrentHomeCard()
     setCurrentOpponentCard()
   }
+
+
 
   const initialShuffle = () => {
     setMessage('Shuffled')
@@ -59,6 +95,7 @@ function GameLogic() {
 
   const nextHand = () => {
     setMessage("Playing")
+    handleWin()
 
     const homeCard = homeDeckState.pop()
     const opponentCard = opponentDeckState.pop()
@@ -90,11 +127,11 @@ function GameLogic() {
         if (random < .5) {
           setHomeDeckState(new Array(52))
           setOpponentDeckState(new Array(0))
+
         } else {
 
           setOpponentDeckState(new Array(52))
           setHomeDeckState(new Array(0))
-
         }
   }
 
@@ -108,6 +145,8 @@ function GameLogic() {
             <button onClick={() => newGame()}>Reset</button>
             <button onClick={() => nextHand()}>Next Hand</button>
             <button onClick={() => simulatEntireGame()}>Simulate Game</button>
+            {/* <button onClick={() => simulatEntireGame()}>Update</button> */}
+
 
           </>
 

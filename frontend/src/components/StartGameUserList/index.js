@@ -17,6 +17,8 @@ function StartGameUserList() {
       const userResponseData = await userResponse.json();
       setUsers(userResponseData);
     }
+
+    
     fetchData();
   }, [dispatch]);
 

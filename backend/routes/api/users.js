@@ -43,6 +43,8 @@ router.post(
   }),
 );
 
+
+
 router.get(
   '/',
   asyncHandler(async (req, res) => {
@@ -55,6 +57,35 @@ router.get(
     );
   })
 );
+
+router.get(
+  "/:id(\\d+)",
+  asyncHandler(async (req, res) => {
+    const id = parseInt(req.params.id);
+    const targetUser = await User.findByPk(id);
+
+
+
+    return res.json({ targetUser});
+  })
+);
+
+router.put(
+  "/:id(\\d+)",
+  validateSignup,
+
+  asyncHandler(async (req, res) => {
+    const { wins } = req.body;
+    const user = await User.update({ wins});
+
+    await setTokenCookie(res, user);
+
+    return res.json({
+      user,
+    });
+  }),
+);
+
 
 
 module.exports = router;

@@ -23,6 +23,7 @@ function LoginFormPage() {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
       });
+
   }
 
   const demoUser = () => {
@@ -31,32 +32,33 @@ function LoginFormPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <>
+        <h1>Login or Signup to Play</h1>
+
+    <form className="form" onSubmit={handleSubmit}>
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
-      <label>
-        Username or Email
+
         <input
           type="text"
           value={credential}
           onChange={(e) => setCredential(e.target.value)}
           required
-        />
-      </label>
-      <label>
-        Password
+          placeholder='Username or Email'
+          />
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-        />
-      </label>
-      <button type="submit">Log In</button>
-      <button onClick={() => demoUser()}>Guest Login</button>
+          placeholder="Password"
+          />
+      <button className="formButton"  type="submit">Log In</button>
+      <button className="formButton" onClick={() => demoUser()}>Guest Login</button>
 
     </form>
+          </>
   );
 }
 
