@@ -93,7 +93,7 @@ function GameLogic() {
     setHomeDeckState(temp1)
     setOpponentDeckState(temp2)
     setPlaying(true)
-    setMessage("Playing")
+    setMessage("Shuffled")
 
   }
 
