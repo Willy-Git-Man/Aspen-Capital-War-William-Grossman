@@ -106,8 +106,8 @@ function GameLogic() {
     setCurrentHomeCard(homeCard)
     setCurrentOpponentCard(opponentCard)
 
-    if (homeCard[0] > opponentCard[0]) homeDeckState.push(homeCard, opponentCard)
-    else if (homeCard[0] < opponentCard[0]) opponentDeckState.push(homeCard, opponentCard)
+    if (homeCard[0] > opponentCard[0]) homeDeckState.unshift(homeCard, opponentCard)
+    else if (homeCard[0] < opponentCard[0]) opponentDeckState.unshift(homeCard, opponentCard)
     else {
       const homeDown = homeDeckState.pop()
       const homeUp = homeDeckState.pop()
