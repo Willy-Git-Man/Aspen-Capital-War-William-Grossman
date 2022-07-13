@@ -8,6 +8,8 @@ const cookieParser = require('cookie-parser');
 const routes = require('./routes');
 
 const { environment } = require('./config');
+const { ValidationError } = require('sequelize');
+
 const isProduction = environment === 'production';
 
 const app = express();
@@ -47,7 +49,6 @@ app.use((_req, _res, next) => {
   next(err);
 });
 
-const { ValidationError } = require('sequelize');
 
 
 app.use((err, _req, _res, next) => {

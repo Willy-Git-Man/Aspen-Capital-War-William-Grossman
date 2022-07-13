@@ -72,13 +72,15 @@ router.get(
 
 router.put(
   "/:id(\\d+)",
-  validateSignup,
+  // validateSignup,
 
   asyncHandler(async (req, res) => {
-    const { wins } = req.body;
-    const user = await User.update({ wins});
-
-    await setTokenCookie(res, user);
+    // const {id} = req.params.id
+    const { wins,id } = req.body;
+    // console.log(id,wins)
+    console.log(wins,req.body)
+    const user = await User.update({ wins }, {where: {id}});
+    // await setTokenCookie(res, user);
 
     return res.json({
       user,

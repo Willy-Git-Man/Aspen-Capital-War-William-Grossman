@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateWinsThunk } from '../../store/users';
+import { useHistory, useParams } from 'react-router-dom';
+import { getAllUsersThunk, updateWinsThunk } from '../../store/users';
 import './index.css'
 function GameLogic() {
   const dispatch = useDispatch()
@@ -11,36 +12,33 @@ function GameLogic() {
   const [currentOpponentCard, setCurrentOpponentCard] = useState()
   const [message, setMessage] = useState("Ready")
   const [sim,setSim] = useState(false)
+  const [gameOver,setGameOver] = useState(false)
+  let count = 0
+  const {id} = useParams()
 
   const sessionUser = useSelector((state) => state.session.user)
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const userResponse = await fetch("http://localhost:5000/api/users/");
-  //     const userResponseData = await userResponse.json();
-  //   }
-  //   fetchData();
-  // }, [dispatch]);
+  const userState = useSelector((state) => state.user.users[id])
+  console.log(typeof userState?.wins)
 
+  useEffect(() => {
+    dispatch(getAllUsersThunk())
+  },[])
 
-// const handleWinUpdate = (e) => {
-//   e.preventDefault();
-//   const winPayload = {
-//     id:sessionUser.id,
-//     username: sessionUser.userName,
-//     wins: sessionUser.id + 1
-//   }
-
-//     return dispatch(updateWinsThunk(winPayload))
-// };
+  const history = useHistory()
 
   const handleWin = () => {
+    // if (homeDeckState.length === 52) setMessage('test')
+console.log(message)
 
-    const winPayload = {
+      const winPayload = {
+        id:id,
+        wins: userState?.wins +1
+      }
 
-      wins: sessionUser.id + 1
-    }
+      dispatch(updateWinsThunk(winPayload))
 
-    dispatch(updateWinsThunk(winPayload))
+      setGameOver(false)
+      history.push('/LeaderBoard')
   }
 
 
@@ -52,6 +50,7 @@ function GameLogic() {
     setCurrentOpponentCard()
     setMessage("Ready")
     setSim(false)
+    setGameOver(false)
   }
 
 
@@ -97,7 +96,15 @@ function GameLogic() {
 
   }
 
+  const winner = () => {
+    if (homeDeckState.length === 52 || opponentDeckState.length === 52) setMessage('test')
+  }
+
   const nextHand = () => {
+    count += 1
+    if (count % 10 === 0) setHomeDeckState(homeDeckState.reverse())
+    if (count % 20 === 0) setOpponentDeckState(opponentDeckState.reverse())
+
     setMessage("Playing")
     handleWin()
 
@@ -127,19 +134,37 @@ function GameLogic() {
   }
 
   const simulatEntireGame = () => {
-    setMessage("Simulated Results")
+    // setMessage("Simulated Results")
 
     const random = Math.random()
-        if (random < .5) {
-          setHomeDeckState(new Array(52))
-          setOpponentDeckState(new Array(0))
+    if (random < .5) {
+      setHomeDeckState(new Array(52))
+      setOpponentDeckState(new Array(0))
+      setMessage('Home Team Won')
+      const winPayload = {
+        id:sessionUser.id,
+        wins: sessionUser?.wins +1
+      }
 
-        } else {
+      dispatch(updateWinsThunk(winPayload))
+    } else {
 
-          setOpponentDeckState(new Array(52))
-          setHomeDeckState(new Array(0))
-        }
-        setSim(true)
+      setOpponentDeckState(new Array(52))
+      setHomeDeckState(new Array(0))
+      setMessage('Opponent Won')
+      const winPayload = {
+        id:id,
+        wins: userState?.wins +1
+      }
+
+      dispatch(updateWinsThunk(winPayload))
+
+    }
+    setSim(true)
+    setGameOver(true)
+
+
+
   }
 
   return (
@@ -160,7 +185,10 @@ function GameLogic() {
             <button onClick={() => simulatEntireGame()}>Simulate Game</button>
             )}
             {/* <button onClick={() => simulatEntireGame()}>Update</button> */}
+             {gameOver && (
+            <button onClick={() => handleWin()}>Update Database</button>
 
+             )}
 
           </>
 

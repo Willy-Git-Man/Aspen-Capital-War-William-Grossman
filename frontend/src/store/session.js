@@ -90,19 +90,19 @@ export const logout = () => async (dispatch) => {
   return response;
 };
 
-export const update = (user) => async (dispatch) => {
-  const { id,username,wins } = user;
-  const response = await csrfFetch("/api/users/1", {
-    method: "PUT",
-    body: JSON.stringify({
-      id,
-      username,
-      wins: wins+=1,
-    }),
-  });
-  const data = await response.json();
-  dispatch(updateUser(data.user));
-  return response;
-};
+// export const update = (user) => async (dispatch) => {
+//   const { id,username,wins } = user;
+//   const response = await csrfFetch("/api/users/1", {
+//     method: "PUT",
+//     body: JSON.stringify({
+//       id,
+//       username,
+//       wins: wins+=1,
+//     }),
+//   });
+//   const data = await response.json();
+//   dispatch(updateUser(data.user));
+//   return response;
+// };
 
 export default sessionReducer;
