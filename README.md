@@ -96,7 +96,7 @@ Add the following scripts to package.json in the backend for easy database contr
   
   Run 'npm i react-icons' in the front end for access to the Github and LinkedIn Icons/Links 
   
-    --
+    
 --
   End of Instructions
 --
