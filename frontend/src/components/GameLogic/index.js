@@ -19,7 +19,6 @@ function GameLogic() {
   const sessionUser = useSelector((state) => state.session.user)
   const userState = useSelector((state) => state.user.users[id])
   const sessionUserWinState = useSelector((state) => state.user.users[sessionUser.id])
-  console.log(sessionUserWinState)
 
   useEffect(() => {
     dispatch(getAllUsersThunk())
@@ -102,19 +101,61 @@ console.log(message)
   }
 
   const nextHand = () => {
+    if (opponentDeckState.length === 1) {
+      setMessage('Home Team Won')
+      const winPayload = {
+        id:sessionUser.id,
+        wins: sessionUserWinState?.wins +1
+      }
+
+      dispatch(updateWinsThunk(winPayload))
+      history.push('/LeaderBoard')
+    }
+    if (homeDeckState.length === 1) {
+      setMessage('Opponent Won')
+      const winPayload = {
+        id:id,
+        wins: userState?.wins +1
+      }
+
+      dispatch(updateWinsThunk(winPayload))
+      history.push('/LeaderBoard')
+    }
     count += 1
-    if (count % 10 === 0) setHomeDeckState(homeDeckState.reverse())
-    if (count % 20 === 0) setOpponentDeckState(opponentDeckState.reverse())
+
+    // if (count / 20 === 0) {
+    //   for (let i = 0; i < homeDeckState.length; i++) {
+    //     if (i % 3 === 0) {
+    //       const temp = homeDeckState[i]
+    //       homeDeckState[i] = homeDeckState[i + 1]
+    //       homeDeckState[i + 1] = temp
+    //     }
+    //   }
+    //     for (let i = 0; i < opponentDeckState.length; i++) {
+    //       if (i % 2 === 0) {
+    //         const temp = opponentDeckState[i]
+    //         opponentDeckState[i] = opponentDeckState[i + 1]
+    //         opponentDeckState[i + 1] = temp
+    //       }
+    //     }
+    //   }
+
+//     if (count % 10 === 0) {
+//       console.log(homeDeckState)
+//       const first = homeDeckState.splice(0,homeDeckState.length /2)
+//       console.log(homeDeckState)
+// setHomeDeckState(homeDeckState.reverse())
+//     }
+//     if (count % 20 === 0) setOpponentDeckState(opponentDeckState.reverse())
 
     setMessage("Playing")
-    handleWin()
 
     const homeCard = homeDeckState.pop()
     const opponentCard = opponentDeckState.pop()
     setCurrentHomeCard(homeCard)
     setCurrentOpponentCard(opponentCard)
 
-    if (homeCard[0] > opponentCard[0]) homeDeckState.unshift(homeCard, opponentCard)
+    if (homeCard[0] > opponentCard[0] || (count / 10 === 0)) homeDeckState.unshift(homeCard, opponentCard)
     else if (homeCard[0] < opponentCard[0]) opponentDeckState.unshift(homeCard, opponentCard)
     else {
       const homeDown = homeDeckState.pop()
@@ -124,13 +165,14 @@ console.log(message)
 
       if (homeUp[0] >= opponentUp[0]) homeDeckState.push(homeCard, opponentCard, homeDown, homeUp, opponentDown, opponentUp)
       else if (homeUp[0] < opponentUp[0]) homeDeckState.push(homeCard, opponentCard, homeDown, homeUp, opponentDown, opponentUp)
-      else if (homeUp[0] === opponentUp[0]) {
-        const nextHome = homeDeckState.pop()
-        const nextOpponent = opponentDeckState.pop()
+      // else
+      // if (homeUp[0] === opponentUp[0]) {
+      //   const nextHome = homeDeckState.pop()
+      //   const nextOpponent = opponentDeckState.pop()
 
-        if (nextHome[0] > nextOpponent[0]) homeDeckState.push(homeCard, opponentCard, homeDown, homeUp, opponentDown, opponentUp, nextHome, nextOpponent)
-        else opponentDeckState.push(homeCard, opponentCard, homeDown, homeUp, opponentDown, opponentUp, nextHome, nextOpponent)
-      }
+      //   if (nextHome[0] > nextOpponent[0]) homeDeckState.push(homeCard, opponentCard, homeDown, homeUp, opponentDown, opponentUp, nextHome, nextOpponent)
+      //   else opponentDeckState.push(homeCard, opponentCard, homeDown, homeUp, opponentDown, opponentUp, nextHome, nextOpponent)
+      // }
     }
   }
 
