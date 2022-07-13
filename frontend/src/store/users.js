@@ -27,7 +27,6 @@ export const getAllUsersThunk = () => async (dispatch) => {
 export const updateWinsThunk = (userToUpdate) => async (dispatch) => {
   console.log(userToUpdate)
   const updatedWinsResponse = await csrfFetch(
-    // `http://localhost:5000/api/users/1`,
     `/api/users/${userToUpdate.id}`,
 
     {
@@ -36,7 +35,6 @@ export const updateWinsThunk = (userToUpdate) => async (dispatch) => {
       body: JSON.stringify(userToUpdate),
     }
   );
-  // console.log(updatedWinsResponse)
   if (updatedWinsResponse.ok) {
     const updatedUserRequest = await updatedWinsResponse.json();
     dispatch(updateWin(updatedUserRequest));

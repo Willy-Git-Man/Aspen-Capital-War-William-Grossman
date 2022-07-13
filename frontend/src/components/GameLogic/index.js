@@ -11,10 +11,10 @@ function GameLogic() {
   const [currentHomeCard, setCurrentHomeCard] = useState()
   const [currentOpponentCard, setCurrentOpponentCard] = useState()
   const [message, setMessage] = useState("Ready")
-  const [sim,setSim] = useState(false)
-  const [gameOver,setGameOver] = useState(false)
+  const [sim, setSim] = useState(false)
+  const [gameOver, setGameOver] = useState(false)
   let count = 0
-  const {id} = useParams()
+  const { id } = useParams()
 
   const sessionUser = useSelector((state) => state.session.user)
   const userState = useSelector((state) => state.user.users[id])
@@ -22,23 +22,21 @@ function GameLogic() {
 
   useEffect(() => {
     dispatch(getAllUsersThunk())
-  },[])
+  }, [])
 
   const history = useHistory()
 
   const handleWin = () => {
-    // if (homeDeckState.length === 52) setMessage('test')
-console.log(message)
+    console.log(message)
 
-      const winPayload = {
-        id:id,
-        wins: userState?.wins +1
-      }
+    const winPayload = {
+      id: id,
+      wins: userState?.wins + 1
+    }
 
-      dispatch(updateWinsThunk(winPayload))
-
-      setGameOver(false)
-      history.push('/LeaderBoard')
+    dispatch(updateWinsThunk(winPayload))
+    setGameOver(false)
+    history.push('/LeaderBoard')
   }
 
 
@@ -65,7 +63,6 @@ console.log(message)
         const random = Math.random()
         if (random < .5) {
           if (homeDeckState.length < 26) {
-            // setHomeDeckState(homeDeckState.concat([cards[j], cardSuit[i]]))
             homeDeckState.push([cards[j], cardSuit[i]])
           } else opponentDeckState.push([cards[j], cardSuit[i]])
 
@@ -104,8 +101,8 @@ console.log(message)
     if (opponentDeckState.length === 1) {
       setMessage('Home Team Won')
       const winPayload = {
-        id:sessionUser.id,
-        wins: sessionUserWinState?.wins +1
+        id: sessionUser.id,
+        wins: sessionUserWinState?.wins + 1
       }
 
       dispatch(updateWinsThunk(winPayload))
@@ -114,8 +111,8 @@ console.log(message)
     if (homeDeckState.length === 1) {
       setMessage('Opponent Won')
       const winPayload = {
-        id:id,
-        wins: userState?.wins +1
+        id: id,
+        wins: userState?.wins + 1
       }
 
       dispatch(updateWinsThunk(winPayload))
@@ -123,30 +120,6 @@ console.log(message)
     }
     count += 1
 
-    // if (count / 20 === 0) {
-    //   for (let i = 0; i < homeDeckState.length; i++) {
-    //     if (i % 3 === 0) {
-    //       const temp = homeDeckState[i]
-    //       homeDeckState[i] = homeDeckState[i + 1]
-    //       homeDeckState[i + 1] = temp
-    //     }
-    //   }
-    //     for (let i = 0; i < opponentDeckState.length; i++) {
-    //       if (i % 2 === 0) {
-    //         const temp = opponentDeckState[i]
-    //         opponentDeckState[i] = opponentDeckState[i + 1]
-    //         opponentDeckState[i + 1] = temp
-    //       }
-    //     }
-    //   }
-
-//     if (count % 10 === 0) {
-//       console.log(homeDeckState)
-//       const first = homeDeckState.splice(0,homeDeckState.length /2)
-//       console.log(homeDeckState)
-// setHomeDeckState(homeDeckState.reverse())
-//     }
-//     if (count % 20 === 0) setOpponentDeckState(opponentDeckState.reverse())
 
     setMessage("Playing")
 
@@ -165,19 +138,11 @@ console.log(message)
 
       if (homeUp[0] >= opponentUp[0]) homeDeckState.push(homeCard, opponentCard, homeDown, homeUp, opponentDown, opponentUp)
       else if (homeUp[0] < opponentUp[0]) homeDeckState.push(homeCard, opponentCard, homeDown, homeUp, opponentDown, opponentUp)
-      // else
-      // if (homeUp[0] === opponentUp[0]) {
-      //   const nextHome = homeDeckState.pop()
-      //   const nextOpponent = opponentDeckState.pop()
 
-      //   if (nextHome[0] > nextOpponent[0]) homeDeckState.push(homeCard, opponentCard, homeDown, homeUp, opponentDown, opponentUp, nextHome, nextOpponent)
-      //   else opponentDeckState.push(homeCard, opponentCard, homeDown, homeUp, opponentDown, opponentUp, nextHome, nextOpponent)
-      // }
     }
   }
 
   const simulatEntireGame = () => {
-    // setMessage("Simulated Results")
 
     const random = Math.random()
     if (random < .5) {
@@ -185,8 +150,8 @@ console.log(message)
       setOpponentDeckState(new Array(0))
       setMessage('Home Team Won')
       const winPayload = {
-        id:sessionUser.id,
-        wins: sessionUserWinState?.wins +1
+        id: sessionUser.id,
+        wins: sessionUserWinState?.wins + 1
       }
 
       dispatch(updateWinsThunk(winPayload))
@@ -197,8 +162,8 @@ console.log(message)
       setHomeDeckState(new Array(0))
       setMessage('Opponent Won')
       const winPayload = {
-        id:id,
-        wins: userState?.wins +1
+        id: id,
+        wins: userState?.wins + 1
       }
 
       dispatch(updateWinsThunk(winPayload))
@@ -207,48 +172,39 @@ console.log(message)
     }
     setSim(true)
     setGameOver(true)
-
-
-
   }
 
   return (
     <>
-        <div className="playingGameDiv">
-      <div className="buttons">
-        {!playing && (<button onClick={() => initialShuffle()}>Shuffle and Start</button>)}
+      <div className="playingGameDiv">
+        <div className="buttons">
+          {!playing && (<button onClick={() => initialShuffle()}>Shuffle and Start</button>)}
 
-        {playing && (
-          <>
-            <button onClick={() => newGame()}>Reset</button>
-            {!sim && (
+          {playing && (
+            <>
+              <button onClick={() => newGame()}>Reset</button>
+              {!sim && (
 
-            <button onClick={() => nextHand()}>Next Hand</button>
-            )}
-            {!sim && (
+                <button onClick={() => nextHand()}>Next Hand</button>
+              )}
+              {!sim && (
 
-            <button onClick={() => simulatEntireGame()}>Simulate Game</button>
-            )}
-            {/* <button onClick={() => simulatEntireGame()}>Update</button> */}
-             {/* {gameOver && (
-            <button onClick={() => handleWin()}>Update Database</button>
+                <button onClick={() => simulatEntireGame()}>Simulate Game</button>
+              )}
 
-             )} */}
 
-          </>
+            </>
 
-        )}
-      </div>
+          )}
+        </div>
 
         <div className="homeSide">
           <h1>Home Deck : {homeDeckState.length}</h1>
-          {/* <p>Winning Pile: {homeWinngPile.length}</p> */}
           <h1>{currentHomeCard}</h1>
         </div>
 
         <div className="opponentSide">
           <h1>Opponent : {opponentDeckState.length}</h1>
-          {/* <p>Winning Pile : {opponentWinningPile.length}</p> */}
           <h1>{currentOpponentCard}</h1>
 
         </div>

@@ -17,7 +17,6 @@ function LeaderBoard() {
     fetchData();
   }, [dispatch]);
 
-  // users = users.filter((user) => user.id !== sessionUser.id)
   users = users.sort((a,b) => a.wins > b.wins ? 1 : -1)
 
   return (

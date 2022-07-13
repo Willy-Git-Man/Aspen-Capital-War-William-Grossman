@@ -39,49 +39,39 @@ function App() {
 
             </div>
           </Route>
-
-
         </Switch>
       )}
+
+
       {sessionUser && (
         <Switch>
+
           <Route exact path="/">
             <div className="mainMenu">
-
               <NavLink to="/LeaderBoard">LeaderBoard</NavLink>
-
               <StartGame />
               <Navigation isLoaded={isLoaded} />
             </div>
-
           </Route>
-
-
-
 
           <Route exact path="/StartGame">
             <StartGameUserList />
             <Navigation isLoaded={isLoaded} />
-            {/* <NavLink path="/home">Home</NavLink> */}
-
           </Route>
 
           <Route exat path="/LeaderBoard">
             <LeaderBoard />
             <Navigation isLoaded={isLoaded} />
-
           </Route>
 
           <Route exact path="/StartGame/:id">
             <GamePage user={sessionUser} />
             <GameLogic />
-
             <Navigation isLoaded={isLoaded} />
-
           </Route>
+          
         </Switch>
       )}
-      {/* <Navigation isLoaded={isLoaded} /> */}
 
     </>
   );

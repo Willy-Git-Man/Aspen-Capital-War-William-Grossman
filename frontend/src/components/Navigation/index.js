@@ -17,8 +17,6 @@ function Navigation({ isLoaded }){
 
   return (
       <div className="mainMenu">
-        {/* <NavLink exact to="/">Home</NavLink> */}
-     
         {isLoaded && sessionLinks }
       </div>
   );

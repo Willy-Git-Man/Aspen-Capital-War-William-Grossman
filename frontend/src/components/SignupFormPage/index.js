@@ -17,7 +17,6 @@ function SignupFormPage() {
   const [wins,setWins] = useState(0)
 
   if (sessionUser) return <Redirect to="/" />;
-  // if (!sessionUser)return <Redirect to="/" />;
 
   const handleSubmit = (e) => {
     e.preventDefault();
