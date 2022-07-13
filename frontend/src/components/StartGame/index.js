@@ -8,7 +8,7 @@ function StartGame() {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     async function fetchData() {
-      const userResponse = await fetch("http://localhost:5000/api/users/");
+      const userResponse = await fetch("/api/users/");
       const userResponseData = await userResponse.json();
       setUsers(userResponseData);
     }
