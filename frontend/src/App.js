@@ -29,14 +29,13 @@ function App() {
 
   return (
     <>
-      <Navigation isLoaded={isLoaded} />
 
-      {isLoaded && !sessionUser &&(
+      {isLoaded && !sessionUser && (
         <Switch>
           <Route path="/">
             <div className="nonSessionMenu">
-            <LoginFormPage />
-            <SignupFormPage />
+              <LoginFormPage />
+              <SignupFormPage />
 
             </div>
           </Route>
@@ -47,27 +46,43 @@ function App() {
       {sessionUser && (
         <Switch>
           <Route exact path="/">
-            <NavLink to="/LeaderBoard">LeaderBoard</NavLink>
-            <StartGame />
+            <div className="mainMenu">
+
+              <NavLink to="/LeaderBoard">LeaderBoard</NavLink>
+
+              <StartGame />
+              <Navigation isLoaded={isLoaded} />
+            </div>
+
           </Route>
+
+
+
 
           <Route exact path="/StartGame">
-            <NavLink exact to="/">Home</NavLink>
             <StartGameUserList />
+            <Navigation isLoaded={isLoaded} />
+            {/* <NavLink path="/home">Home</NavLink> */}
+
           </Route>
 
-          <Route path="/LeaderBoard">
-            <NavLink exact to="/">Home</NavLink>
+          <Route exat path="/LeaderBoard">
             <LeaderBoard />
+            <Navigation isLoaded={isLoaded} />
+
           </Route>
 
-          <Route path="/StartGame/:id">
-            <NavLink exact to="/">Home</NavLink>
+          <Route exact path="/StartGame/:id">
             <GamePage user={sessionUser} />
             <GameLogic />
+
+            <Navigation isLoaded={isLoaded} />
+
           </Route>
         </Switch>
       )}
+      {/* <Navigation isLoaded={isLoaded} /> */}
+
     </>
   );
 }

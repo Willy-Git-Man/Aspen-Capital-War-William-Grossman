@@ -12,3 +12,17 @@
   width: 100px;
   justify-content: space-around;
 }
+
+.mainMenu {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profileButton {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+}

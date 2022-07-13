@@ -18,7 +18,7 @@ function StartGameUserList() {
       setUsers(userResponseData);
     }
 
-    
+
     fetchData();
   }, [dispatch]);
 
@@ -27,7 +27,10 @@ function StartGameUserList() {
 
   return (
     <div className="userList">
+
+      <NavLink to="/">Home</NavLink>
       <h1>Choose a Player</h1>
+
       {users.map((user) => (
           <NavLink key={user.id} to={`/StartGame/${user.id}`}>{user.username}</NavLink>
 

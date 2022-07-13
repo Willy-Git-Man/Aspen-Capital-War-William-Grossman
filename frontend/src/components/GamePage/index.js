@@ -23,6 +23,8 @@ function GamePage() {
 
   return (
     <div className="userList">
+            <NavLink exact to="/">Home</NavLink>
+
       {opponent.length > 0 && (
         <>
 

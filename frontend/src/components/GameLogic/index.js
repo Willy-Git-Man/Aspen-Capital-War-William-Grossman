@@ -10,6 +10,7 @@ function GameLogic() {
   const [currentHomeCard, setCurrentHomeCard] = useState()
   const [currentOpponentCard, setCurrentOpponentCard] = useState()
   const [message, setMessage] = useState("Ready")
+  const [sim,setSim] = useState(false)
 
   const sessionUser = useSelector((state) => state.session.user)
   // useEffect(() => {
@@ -49,6 +50,8 @@ function GameLogic() {
     setOpponentDeckState([])
     setCurrentHomeCard()
     setCurrentOpponentCard()
+    setMessage("Ready")
+    setSim(false)
   }
 
 
@@ -90,6 +93,7 @@ function GameLogic() {
     setHomeDeckState(temp1)
     setOpponentDeckState(temp2)
     setPlaying(true)
+    setMessage("Playing")
 
   }
 
@@ -123,6 +127,8 @@ function GameLogic() {
   }
 
   const simulatEntireGame = () => {
+    setMessage("Simulated Results")
+
     const random = Math.random()
         if (random < .5) {
           setHomeDeckState(new Array(52))
@@ -133,18 +139,26 @@ function GameLogic() {
           setOpponentDeckState(new Array(52))
           setHomeDeckState(new Array(0))
         }
+        setSim(true)
   }
 
   return (
     <>
+        <div className="playingGameDiv">
       <div className="buttons">
         {!playing && (<button onClick={() => initialShuffle()}>Shuffle and Start</button>)}
 
         {playing && (
           <>
             <button onClick={() => newGame()}>Reset</button>
+            {!sim && (
+
             <button onClick={() => nextHand()}>Next Hand</button>
+            )}
+            {!sim && (
+
             <button onClick={() => simulatEntireGame()}>Simulate Game</button>
+            )}
             {/* <button onClick={() => simulatEntireGame()}>Update</button> */}
 
 
@@ -153,22 +167,21 @@ function GameLogic() {
         )}
       </div>
 
-      <div className="playingGameDiv">
         <div className="homeSide">
-          <p>Home Deck : {homeDeckState.length}</p>
+          <h1>Home Deck : {homeDeckState.length}</h1>
           {/* <p>Winning Pile: {homeWinngPile.length}</p> */}
           <h1>{currentHomeCard}</h1>
         </div>
 
         <div className="opponentSide">
-          <p>Opponent : {opponentDeckState.length}</p>
+          <h1>Opponent : {opponentDeckState.length}</h1>
           {/* <p>Winning Pile : {opponentWinningPile.length}</p> */}
           <h1>{currentOpponentCard}</h1>
 
         </div>
 
       </div>
-      <div>
+      <div className="homeSide">
         {message}
       </div>
     </>

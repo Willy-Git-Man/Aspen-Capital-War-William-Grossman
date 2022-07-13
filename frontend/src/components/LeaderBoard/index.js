@@ -22,6 +22,8 @@ function LeaderBoard() {
 
   return (
     <div className="userList">
+            <NavLink exact to="/">Home</NavLink>
+
       <h1>leaders</h1>
       {users.map((user) => (
           <p key={user.id}>{user.username} : {user.wins}</p>

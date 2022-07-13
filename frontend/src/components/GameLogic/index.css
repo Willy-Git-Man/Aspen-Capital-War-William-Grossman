@@ -1,17 +1,21 @@
 .playingGameDiv {
-  width: 100%;
+  width: 50%;
+  margin-left: 25%;
+  margin-top: 5%;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
+  border: 5px solid white;
 }
 
 .homeSide {
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
 }
 
 .opponentSide {
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
 }
 
 .buttons {
