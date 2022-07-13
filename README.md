@@ -100,7 +100,7 @@ Add the following scripts to package.json in the backend for easy database contr
 --
   End of Instructions
 --
-  --
+  
   
 I made some tradeoffs as I built the application and I will outline what I would have liked to do and how I ended up spending my time below: 
 
