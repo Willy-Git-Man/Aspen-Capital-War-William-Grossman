@@ -18,7 +18,8 @@ function GameLogic() {
 
   const sessionUser = useSelector((state) => state.session.user)
   const userState = useSelector((state) => state.user.users[id])
-  console.log(typeof userState?.wins)
+  const sessionUserWinState = useSelector((state) => state.user.users[sessionUser.id])
+  console.log(sessionUserWinState)
 
   useEffect(() => {
     dispatch(getAllUsersThunk())
@@ -143,10 +144,11 @@ console.log(message)
       setMessage('Home Team Won')
       const winPayload = {
         id:sessionUser.id,
-        wins: sessionUser?.wins +1
+        wins: sessionUserWinState?.wins +1
       }
 
       dispatch(updateWinsThunk(winPayload))
+      history.push('/LeaderBoard')
     } else {
 
       setOpponentDeckState(new Array(52))
@@ -158,6 +160,7 @@ console.log(message)
       }
 
       dispatch(updateWinsThunk(winPayload))
+      history.push('/LeaderBoard')
 
     }
     setSim(true)
@@ -185,10 +188,10 @@ console.log(message)
             <button onClick={() => simulatEntireGame()}>Simulate Game</button>
             )}
             {/* <button onClick={() => simulatEntireGame()}>Update</button> */}
-             {gameOver && (
+             {/* {gameOver && (
             <button onClick={() => handleWin()}>Update Database</button>
 
-             )}
+             )} */}
 
           </>
 
